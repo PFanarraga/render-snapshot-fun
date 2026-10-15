@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, useMatchRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
@@ -8,7 +8,7 @@ import { MatchCard } from "@/components/fie/cards";
 import { teamMap } from "@/utils/format";
 import type { AnalysisStatus } from "@/types";
 
-export const Route = createFileRoute("/partidos")({
+export const Route = createFileRoute("/partidos/")({
   head: () => ({
     meta: [
       { title: "Partidos de LaLiga · FIE" },
@@ -20,14 +20,8 @@ export const Route = createFileRoute("/partidos")({
   loader: async ({ context: { queryClient: c } }) => {
     await Promise.all([c.ensureQueryData(q.teams()), c.ensureQueryData(q.matches()), c.ensureQueryData(q.meta())]);
   },
-  component: Page,
+  component: Calendar,
 });
-
-function Page() {
-  const isChild = useMatchRoute()({ to: "/partidos/$matchId" });
-  if (isChild) return <Outlet />;
-  return <Calendar />;
-}
 
 function Calendar() {
   const { data: teams } = useSuspenseQuery(q.teams());

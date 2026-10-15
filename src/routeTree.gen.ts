@@ -10,33 +10,80 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AnalisisRouteImport } from './routes/analisis'
+import { Route as OportunidadesRouteImport } from './routes/oportunidades'
+import { Route as PartidosIndexRouteImport } from './routes/partidos.index'
+import { Route as PartidosMatchIdRouteImport } from './routes/partidos.$matchId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnalisisRoute = AnalisisRouteImport.update({
+  id: '/analisis',
+  path: '/analisis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OportunidadesRoute = OportunidadesRouteImport.update({
+  id: '/oportunidades',
+  path: '/oportunidades',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartidosIndexRoute = PartidosIndexRouteImport.update({
+  id: '/partidos/',
+  path: '/partidos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartidosMatchIdRoute = PartidosMatchIdRouteImport.update({
+  id: '/partidos/$matchId',
+  path: '/partidos/$matchId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/analisis': typeof AnalisisRoute
+  '/oportunidades': typeof OportunidadesRoute
+  '/partidos/$matchId': typeof PartidosMatchIdRoute
+  '/partidos/': typeof PartidosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/analisis': typeof AnalisisRoute
+  '/oportunidades': typeof OportunidadesRoute
+  '/partidos/$matchId': typeof PartidosMatchIdRoute
+  '/partidos': typeof PartidosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/analisis': typeof AnalisisRoute
+  '/oportunidades': typeof OportunidadesRoute
+  '/partidos/$matchId': typeof PartidosMatchIdRoute
+  '/partidos/': typeof PartidosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/analisis' | '/oportunidades' | '/partidos/$matchId' | '/partidos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/analisis' | '/oportunidades' | '/partidos/$matchId' | '/partidos'
+  id:
+    | '__root__'
+    | '/'
+    | '/analisis'
+    | '/oportunidades'
+    | '/partidos/$matchId'
+    | '/partidos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnalisisRoute: typeof AnalisisRoute
+  OportunidadesRoute: typeof OportunidadesRoute
+  PartidosMatchIdRoute: typeof PartidosMatchIdRoute
+  PartidosIndexRoute: typeof PartidosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +95,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/analisis': {
+      id: '/analisis'
+      path: '/analisis'
+      fullPath: '/analisis'
+      preLoaderRoute: typeof AnalisisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/oportunidades': {
+      id: '/oportunidades'
+      path: '/oportunidades'
+      fullPath: '/oportunidades'
+      preLoaderRoute: typeof OportunidadesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partidos/': {
+      id: '/partidos/'
+      path: '/partidos'
+      fullPath: '/partidos/'
+      preLoaderRoute: typeof PartidosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partidos/$matchId': {
+      id: '/partidos/$matchId'
+      path: '/partidos/$matchId'
+      fullPath: '/partidos/$matchId'
+      preLoaderRoute: typeof PartidosMatchIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnalisisRoute: AnalisisRoute,
+  OportunidadesRoute: OportunidadesRoute,
+  PartidosMatchIdRoute: PartidosMatchIdRoute,
+  PartidosIndexRoute: PartidosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
